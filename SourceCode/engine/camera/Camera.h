@@ -41,7 +41,7 @@ public: // メンバ関数
 	/// <summary>
 	/// 射影行列を更新
 	/// </summary>
-	virtual void UpdateProjectionMatrix();
+	void UpdateProjectionMatrix();
 
 	/// <summary>
 	/// ビュー行列の取得

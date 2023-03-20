@@ -13,6 +13,8 @@ public:
 	void Update(DirectXCommon* dxCommon);
 	/// •`‰æ
 	void Draw(DirectXCommon* dxCommon);
+	//‰e—p•`‰æ
+	void ShadowDraw(DirectXCommon* dxCommon);
 	//ŠJ•ú
 	void Finalize();
 

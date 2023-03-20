@@ -63,6 +63,9 @@ void IntroductionSceneActor::Draw(DirectXCommon* dxCommon) {
 //”wŒi
 void IntroductionSceneActor::ModelDraw(DirectXCommon* dxCommon) {
 }
+//‰e—p•`‰æ
+void IntroductionSceneActor::ShadowDraw(DirectXCommon* dxCommon) {
+}
 //‘O–Ê•`‰æ
 void IntroductionSceneActor::FrontDraw() {
 	IKESprite::PreDraw();

@@ -103,6 +103,12 @@ void PlaySceneActor::ModelDraw(DirectXCommon* dxCommon) {
 	objGround->Draw();
 	IKEObject3d::PostDraw();
 }
+//‰e—p•`‰æ
+void PlaySceneActor::ShadowDraw(DirectXCommon* dxCommon) {
+	IKEObject3d::PreDraw();
+	objCube->ShadowCameraDraw();
+	IKEObject3d::PostDraw();
+}
 //Œã‚ë‚Ì•`‰æ
 void PlaySceneActor::BackDraw(DirectXCommon* dxCommon)
 {

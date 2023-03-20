@@ -43,6 +43,9 @@ void LoadSceneActor::Draw(DirectXCommon* dxCommon) {
 //”wŒi•`‰æ
 void LoadSceneActor::ModelDraw(DirectXCommon* dxCommon) {
 }
+//‰e—p•`‰æ
+void LoadSceneActor::ShadowDraw(DirectXCommon* dxCommon) {
+}
 //‘O–Ê•`‰æ
 void LoadSceneActor::SpriteDraw() {
 	IKESprite::PreDraw();

@@ -18,6 +18,10 @@ void TitleScene::Update(DirectXCommon* dxCommon) {
 void TitleScene::Draw(DirectXCommon* dxCommon) {
 	actor->Draw(dxCommon);
 }
+//‰e—p•`‰æ
+void TitleScene::ShadowDraw(DirectXCommon* dxCommon) {
+	actor->ShadowDraw(dxCommon);
+}
 //‰ð•ú
 void TitleScene::Finalize() {
 	actor->Finalize();

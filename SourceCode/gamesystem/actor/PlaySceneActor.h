@@ -15,7 +15,8 @@ public:
 	void Update(DirectXCommon* dxCommon, DebugCamera* camera, LightGroup* lightgroup) override;
 	/// 描画
 	void Draw(DirectXCommon* dxCommon) override;
-	void PlaySceneInitialize();//プレイシーンのみの初期化
+	//影用描画
+	void ShadowDraw(DirectXCommon* dxCommon) override;
 	void ModelDraw(DirectXCommon* dxCommon);
 	void FrontDraw(DirectXCommon* dxCommon);
 	void BackDraw(DirectXCommon* dxCommon);

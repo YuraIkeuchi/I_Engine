@@ -17,6 +17,10 @@ void IntroductionScene::Update(DirectXCommon* dxCommon) {
 void IntroductionScene::Draw(DirectXCommon* dxCommon) {
 	actor->Draw(dxCommon);
 }
+//‰e—p•`‰æ
+void IntroductionScene::ShadowDraw(DirectXCommon* dxCommon) {
+	actor->ShadowDraw(dxCommon);
+}
 //‰ð•ú
 void IntroductionScene::Finalize() {
 	actor->Finalize();

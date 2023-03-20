@@ -61,6 +61,9 @@ void TitleSceneActor::Draw(DirectXCommon* dxCommon) {
 //”wŒi
 void TitleSceneActor::ModelDraw(DirectXCommon* dxCommon) {
 }
+//‰e—p•`‰æ
+void TitleSceneActor::ShadowDraw(DirectXCommon* dxCommon) {
+}
 //‘O–Ê•`‰æ
 void TitleSceneActor::FrontDraw() {
 	IKESprite::PreDraw();

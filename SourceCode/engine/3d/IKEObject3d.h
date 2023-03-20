@@ -9,7 +9,7 @@
 #include "IKEModel.h"
 #include "Camera.h"
 #include "LightGroup.h"
-
+#include "ShadowCamera.h"
 #include "CollisionInfo.h"
 
 class BaseCollider;
@@ -79,6 +79,9 @@ public: //静的メンバ関数
 		IKEObject3d::camera = camera;
 	}
 
+	static void SetShadowCamera(ShadowCamera* shadowcamera) {
+		IKEObject3d::shadowcamera = shadowcamera;
+	}
 	static void SetLightGroup(LightGroup* lightGroup) {
 		IKEObject3d::lightGroup = lightGroup;
 	}
@@ -112,6 +115,8 @@ private: // 静的メンバ変数
 	static XMMATRIX matBillboardY;
 	// カメラ
 	static Camera* camera;
+	// 影用カメラ
+	static ShadowCamera* shadowcamera;
 	// ライト
 	static LightGroup* lightGroup;
 
@@ -141,6 +146,8 @@ public: // メンバ関数
 	void FollowUpdate(XMMATRIX matworld);
 	// 描画
 	virtual void Draw();
+	//影用カメラから見た視点の描画
+	virtual void ShadowCameraDraw();
 	//行列の更新
 	void UpdateWorldMatrix();
 
@@ -245,7 +252,7 @@ public: // メンバ関数
 	}
 
 protected: // メンバ変数
-	ComPtr<ID3D12Resource> constBuffB0; // 定数バッファ
+	ComPtr<ID3D12Resource> constBuffB0[2]; // 定数バッファ
 	//オフセット値
 	XMFLOAT2 offset = { 0.0f,0.0f };
 	float addoffset = 0.0f;

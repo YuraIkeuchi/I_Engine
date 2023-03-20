@@ -64,6 +64,9 @@ void ClearSceneActor::Draw(DirectXCommon* dxCommon) {
 void ClearSceneActor::ModelDraw(DirectXCommon* dxCommon) {
 
 }
+//‰e—p•`‰æ
+void ClearSceneActor::ShadowDraw(DirectXCommon* dxCommon) {
+}
 //‘O–Ê•`‰æ
 void ClearSceneActor::FrontDraw() {
 	IKESprite::PreDraw();

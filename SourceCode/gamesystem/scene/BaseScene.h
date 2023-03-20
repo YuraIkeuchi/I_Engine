@@ -4,6 +4,7 @@
 #include "DirectXCommon.h"
 #include "PostEffect.h"
 #include "BaseActor.h"
+#include "ShadowCamera.h"
 #include <vector>
 #include <memory>
 using namespace std;         //  名前空間指定
@@ -33,6 +34,8 @@ public:
 	virtual void Update(DirectXCommon* dxCommon) = 0;
 	//描画
 	virtual void Draw(DirectXCommon* dxCommon) = 0;
+	//影用描画
+	virtual void ShadowDraw(DirectXCommon* dxCommon) = 0;
 	//共通初期化
 	void BaseInitialize(DirectXCommon* dxCommon);
 
@@ -41,6 +44,8 @@ public:
 	unique_ptr<BaseActor> actor;
 	///ゲームシーン用
 	DebugCamera* camera = nullptr;
+	//ライトカメラ
+	ShadowCamera* shadowcamera = nullptr;
 	//ポストエフェクトをかけるか
 	bool PlayPostEffect = false;
 	//ライト

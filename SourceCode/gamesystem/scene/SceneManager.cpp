@@ -51,6 +51,10 @@ void SceneManager::Draw(DirectXCommon* dxCommon) {
 	scene_->Draw(dxCommon);
 }
 
+void SceneManager::ShadowDraw(DirectXCommon* dxCommon) {
+	scene_->ShadowDraw(dxCommon);
+}
+
 void SceneManager::ChangeScene(const std::string& sceneName) {
 	assert(sceneFactory_);
 	assert(nextScene_ == nullptr);

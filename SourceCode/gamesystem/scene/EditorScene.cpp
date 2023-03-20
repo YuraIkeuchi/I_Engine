@@ -21,6 +21,10 @@ void EditorScene::Draw(DirectXCommon* dxCommon)
 {
 	actor->Draw(dxCommon);
 }
+//‰e—p•`‰æ
+void EditorScene::ShadowDraw(DirectXCommon* dxCommon) {
+	actor->ShadowDraw(dxCommon);
+}
 //‰ð•ú
 void EditorScene::Finalize()
 {

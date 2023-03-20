@@ -107,6 +107,9 @@ void Framework::Draw(DirectXCommon* dxCommon)
 {
 	//dxCommon->PreDraw();
 
+	shadowmap->DrawScenePrev();
+	SceneManager::GetInstance()->ShadowDraw(dxCommon);
+	shadowmap->DrawSceneRear();
 	//ƒV[ƒ“•`‰æ
 	SceneManager::GetInstance()->Draw(dxCommon);
 

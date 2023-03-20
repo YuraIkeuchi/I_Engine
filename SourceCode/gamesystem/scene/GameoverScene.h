@@ -12,8 +12,7 @@ public:
 	void Update(DirectXCommon* dxCommon) override;
 	/// •`‰æ
 	void Draw(DirectXCommon* dxCommon) override;
-
-private://ƒƒ“ƒo•Ï”
-	unique_ptr<IKESprite> sprite;
+	//‰e—p•`‰æ
+	void ShadowDraw(DirectXCommon* dxCommon) override;
 };
 

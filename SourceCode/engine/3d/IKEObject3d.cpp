@@ -26,9 +26,8 @@ XMFLOAT3 IKEObject3d::up = { 0, 1, 0 };
 XMMATRIX IKEObject3d::matBillboard = XMMatrixIdentity();
 XMMATRIX IKEObject3d::matBillboardY = XMMatrixIdentity();
 Camera* IKEObject3d::camera = nullptr;
+ShadowCamera* IKEObject3d::shadowcamera = nullptr;
 LightGroup* IKEObject3d::lightGroup = nullptr;
-
-
 
 bool IKEObject3d::StaticInitialize(ID3D12Device* device, ID3D12GraphicsCommandList* cmdList, int window_width, int window_height, Camera* camera)
 {
@@ -49,7 +48,6 @@ bool IKEObject3d::StaticInitialize(ID3D12Device* device, ID3D12GraphicsCommandLi
 
 	return true;
 }
-
 
 void IKEObject3d::PreDraw()
 {
@@ -92,60 +90,6 @@ IKEObject3d* IKEObject3d::Create()
 
 	return object3d;
 }
-
-//void IKEObject3d::SetEye(XMFLOAT3 eye)
-//{
-//	IKEObject3d::eye = eye;
-//
-//	UpdateViewMatrix();
-//}
-//
-//void IKEObject3d::SetTarget(XMFLOAT3 target)
-//{
-//	IKEObject3d::target = target;
-//
-//	UpdateViewMatrix();
-//}
-//
-//void IKEObject3d::CameraMoveVector(XMFLOAT3 move)
-//{
-//	XMFLOAT3 eye_moved = GetEye();
-//	XMFLOAT3 target_moved = GetTarget();
-//
-//	eye_moved.x += move.x;
-//	eye_moved.y += move.y;
-//	eye_moved.z += move.z;
-//
-//	target_moved.x += move.x;
-//	target_moved.y += move.y;
-//	target_moved.z += move.z;
-//
-//	SetEye(eye_moved);
-//	SetTarget(target_moved);
-//}
-//
-
-
-//void IKEObject3d::InitializeCamera(int window_width, int window_height)
-//{
-//	// ビュー行列の生成
-//	matView = XMMatrixLookAtLH(
-//		XMLoadFloat3(&eye),
-//		XMLoadFloat3(&target),
-//		XMLoadFloat3(&up));
-//
-//	// 平行投影による射影行列の生成
-//	//constMap->mat = XMMatrixOrthographicOffCenterLH(
-//	//	0, window_width,
-//	//	window_height, 0,
-//	//	0, 1);
-//	// 透視投影による射影行列の生成
-//	matProjection = XMMatrixPerspectiveFovLH(
-//		XMConvertToRadians(60.0f),
-//		(float)window_width / window_height,
-//		0.1f, 1000.0f
-//	);
-//}
 
 void IKEObject3d::CreateGraphicsPipeline()
 {
@@ -306,7 +250,6 @@ void IKEObject3d::CreateGraphicsPipeline()
 	}
 }
 
-
 void IKEObject3d::UpdateViewMatrix()
 {
 	// ビュー行列の更新
@@ -320,36 +263,30 @@ IKEObject3d::~IKEObject3d() {
 		delete collider;
 	}
 }
-
+//初期化
 bool IKEObject3d::Initialize()
 {
 	// nullptrチェック
 	assert(device);
 
 	HRESULT result;
-	//// 定数バッファの生成
-	//result = device->CreateCommittedResource(
-	//	&CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD), 	// アップロード可能
-	//	D3D12_HEAP_FLAG_NONE,
-	//	&CD3DX12_RESOURCE_DESC::Buffer((sizeof(ConstBufferData) + 0xff) & ~0xff),
-	//	D3D12_RESOURCE_STATE_GENERIC_READ,
-	//	nullptr,
-	//	IID_PPV_ARGS(&constBuff));
 
 	// 定数バッファの生成B0
-	result = device->CreateCommittedResource(
-		&CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD), 	// アップロード可能
-		D3D12_HEAP_FLAG_NONE,
-		&CD3DX12_RESOURCE_DESC::Buffer((sizeof(ConstBufferDataB0) + 0xff) & ~0xff),
-		D3D12_RESOURCE_STATE_GENERIC_READ,
-		nullptr,
-		IID_PPV_ARGS(&constBuffB0));
+	for (int i = 0; i < 2; i++) {
+		result = device->CreateCommittedResource(
+			&CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD), 	// アップロード可能
+			D3D12_HEAP_FLAG_NONE,
+			&CD3DX12_RESOURCE_DESC::Buffer((sizeof(ConstBufferDataB0) + 0xff) & ~0xff),
+			D3D12_RESOURCE_STATE_GENERIC_READ,
+			nullptr,
+			IID_PPV_ARGS(&constBuffB0[i]));
+	}
 	//クラス名の文字列を取得
 	name = typeid(*this).name();
 
 	return true;
 }
-
+//更新
 void IKEObject3d::Update()
 {
 	assert(camera);
@@ -358,12 +295,13 @@ void IKEObject3d::Update()
 	//行列の更新
 	UpdateWorldMatrix();
 
+	//通常描画
 	const XMMATRIX& matViewProjection = camera->GetViewProjectionMatrix();
 	const XMFLOAT3& cameraPos = camera->GetEye();
 	offset.y += addoffset;
 	// 定数バッファへデータ転送
 	ConstBufferDataB0* constMap = nullptr;
-	result = constBuffB0->Map(0, nullptr, (void**)&constMap);
+	result = constBuffB0[0]->Map(0, nullptr, (void**)&constMap);
 	constMap->offset = offset;
 	constMap->viewproj = matViewProjection;
 	constMap->world = matWorld;
@@ -376,14 +314,33 @@ void IKEObject3d::Update()
 	constMap->Tiling = Tiling;
 	constMap->LightEfffect = LightEffect;
 	constMap->lightPower = lightPower;
-	constBuffB0->Unmap(0, nullptr);
+	constBuffB0[0]->Unmap(0, nullptr);
+
+	//通常描画
+	const XMMATRIX& matShadowViewProjection = shadowcamera->GetViewProjectionMatrix();
+	const XMFLOAT3& ShadowcameraPos = shadowcamera->GetEye();
+	// 定数バッファへデータ転送
+	ConstBufferDataB0* constMap1 = nullptr;
+	result = constBuffB0[1]->Map(0, nullptr, (void**)&constMap1);
+	constMap1->offset = offset;
+	constMap1->viewproj = matShadowViewProjection;
+	constMap1->world = matWorld;
+	constMap1->cameraPos = ShadowcameraPos;
+	constMap1->color = color;
+	constMap1->Addcolor = Addcolor;
+	constMap1->ChangeColor = ChangeColor;
+	constMap1->Disolve = Disolve;
+	constMap1->Fog = Fog;
+	constMap1->Tiling = Tiling;
+	constMap1->LightEfffect = LightEffect;
+	constMap1->lightPower = lightPower;
+	constBuffB0[1]->Unmap(0, nullptr);
 	//当たり判定更新
 	if (collider) {
 		collider->Update();
 	}
 }
-
-
+//追従するものの更新
 void IKEObject3d::FollowUpdate(XMMATRIX matworld)
 {
 	assert(camera);
@@ -399,7 +356,7 @@ void IKEObject3d::FollowUpdate(XMMATRIX matworld)
 	offset.y += addoffset;
 	// 定数バッファへデータ転送
 	ConstBufferDataB0* constMap = nullptr;
-	result = constBuffB0->Map(0, nullptr, (void**)&constMap);
+	result = constBuffB0[0]->Map(0, nullptr, (void**)&constMap);
 	constMap->offset = offset;
 	constMap->viewproj = matViewProjection;
 	constMap->world = matWorld * matworld;
@@ -411,7 +368,7 @@ void IKEObject3d::FollowUpdate(XMMATRIX matworld)
 	constMap->Fog = Fog;
 	constMap->Tiling = Tiling;
 	constMap->LightEfffect = LightEffect;
-	constBuffB0->Unmap(0, nullptr);
+	constBuffB0[0]->Unmap(0, nullptr);
 	//当たり判定更新
 	if (collider) {
 		collider->Update();
@@ -435,7 +392,7 @@ void IKEObject3d::AffineUpdate() {
 
 	// 定数バッファへデータ転送
 	ConstBufferDataB0* constMap = nullptr;
-	result = constBuffB0->Map(0, nullptr, (void**)&constMap);
+	result = constBuffB0[0]->Map(0, nullptr, (void**)&constMap);
 	constMap->offset = offset;
 	constMap->viewproj = matViewProjection;
 	constMap->world = matWorld;
@@ -447,14 +404,13 @@ void IKEObject3d::AffineUpdate() {
 	constMap->Fog = Fog;
 	constMap->Tiling = Tiling;
 	constMap->LightEfffect = LightEffect;
-	constBuffB0->Unmap(0, nullptr);
+	constBuffB0[0]->Unmap(0, nullptr);
 	//当たり判定更新
 	if (collider) {
 		collider->Update();
 	}
 }
-
-
+//描画
 void IKEObject3d::Draw()
 {// nullptrチェック
 	assert(device);
@@ -470,13 +426,35 @@ void IKEObject3d::Draw()
 	// ルートシグネチャの設定
 	cmdList->SetGraphicsRootSignature(pipelineSet.rootsignature.Get());
 	// 定数バッファビューをセット
-	cmdList->SetGraphicsRootConstantBufferView(0, constBuffB0->GetGPUVirtualAddress());
+	cmdList->SetGraphicsRootConstantBufferView(0, constBuffB0[0]->GetGPUVirtualAddress());
 	// ライトの描画
 	lightGroup->Draw(cmdList, 3);
 	// モデル描画
 	model->Draw(cmdList);
 }
+//影用カメラから見た描画
+void IKEObject3d::ShadowCameraDraw() {
+	// nullptrチェック
+	assert(device);
+	assert(IKEObject3d::cmdList);
 
+	// モデルの割り当てがなければ描画しない
+	if (model == nullptr) {
+		return;
+	}
+
+	// パイプラインステートの設定
+	cmdList->SetPipelineState(pipelineSet.pipelinestate.Get());
+	// ルートシグネチャの設定
+	cmdList->SetGraphicsRootSignature(pipelineSet.rootsignature.Get());
+	// 定数バッファビューをセット
+	cmdList->SetGraphicsRootConstantBufferView(0, constBuffB0[1]->GetGPUVirtualAddress());
+	// ライトの描画
+	lightGroup->Draw(cmdList, 3);
+	// モデル描画
+	model->Draw(cmdList);
+}
+//行列の更新
 void IKEObject3d::UpdateWorldMatrix()
 {
 	assert(camera);
@@ -512,8 +490,7 @@ void IKEObject3d::UpdateWorldMatrix()
 		matWorld *= parent->matWorld;
 	}
 }
-
-
+//当たり判定
 void IKEObject3d::SetCollider(BaseCollider* collider) {
 
 	collider->SetObject(this);

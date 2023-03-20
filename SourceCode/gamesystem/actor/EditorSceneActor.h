@@ -12,6 +12,8 @@ public:
 	void Update(DirectXCommon* dxCommon, DebugCamera* camera, LightGroup* lightgroup) override;
 	/// •`‰æ
 	void Draw(DirectXCommon* dxCommon) override;
+	//‰e—p•`‰æ
+	void ShadowDraw(DirectXCommon* dxCommon) override;
 	void ModelDraw(DirectXCommon* dxCommon);
 	void FrontDraw(DirectXCommon* dxCommon);
 	void BackDraw(DirectXCommon* dxCommon);

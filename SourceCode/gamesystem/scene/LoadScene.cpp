@@ -17,8 +17,11 @@ void LoadScene::Update(DirectXCommon* dxCommon) {
 }
 //描画
 void LoadScene::Draw(DirectXCommon* dxCommon) {
-	//ポストエフェクトをかけるか
 	actor->Draw(dxCommon);
+}
+//影用描画
+void LoadScene::ShadowDraw(DirectXCommon* dxCommon) {
+	actor->ShadowDraw(dxCommon);
 }
 //解放
 void LoadScene::Finalize() {

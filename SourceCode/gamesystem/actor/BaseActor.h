@@ -32,6 +32,8 @@ public:
 	virtual void Update(DirectXCommon* dxCommon, DebugCamera* camera,LightGroup* lightgroup) = 0;
 	//ï`âÊ
 	virtual void Draw(DirectXCommon* dxCommon) = 0;
+	//âeópï`âÊ
+	virtual void ShadowDraw(DirectXCommon* dxCommon) = 0;
 	//ã§í èâä˙âª
 	void BaseInitialize(DirectXCommon* dxCommon);
 protected:

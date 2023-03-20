@@ -13,6 +13,8 @@ public:
 	void Update(DirectXCommon* dxCommon, DebugCamera* camera, LightGroup* lightgroup) override;
 	/// •`‰æ
 	void Draw(DirectXCommon* dxCommon) override;
+	//‰e—p•`‰æ
+	void ShadowDraw(DirectXCommon* dxCommon) override;
 	void ModelDraw(DirectXCommon* dxCommon);
 	void GameDraw(DirectXCommon* dxCommon);
 	void ImGuiDraw(DirectXCommon* dxCommon);

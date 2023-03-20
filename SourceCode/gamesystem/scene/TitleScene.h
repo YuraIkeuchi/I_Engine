@@ -12,4 +12,6 @@ public:
 	void Update(DirectXCommon* dxCommon) override;
 	/// •`‰æ
 	void Draw(DirectXCommon* dxCommon) override;
+	//‰e—p•`‰æ
+	void ShadowDraw(DirectXCommon* dxCommon) override;
 };

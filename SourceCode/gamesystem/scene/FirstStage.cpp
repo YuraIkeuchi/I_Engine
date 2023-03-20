@@ -12,13 +12,18 @@ void FirstStage::Initialize(DirectXCommon* dxCommon)
 }
 //XV
 void FirstStage::Update(DirectXCommon* dxCommon)
-{
+{	
+	shadowcamera->Update();
 	actor->Update(dxCommon, camera, lightGroup);
 }
 //•`‰æ
 void FirstStage::Draw(DirectXCommon* dxCommon)
 {
 	actor->Draw(dxCommon);
+}
+//‰e—p•`‰æ
+void FirstStage::ShadowDraw(DirectXCommon* dxCommon) {
+	actor->ShadowDraw(dxCommon);
 }
 //‰ð•ú
 void FirstStage::Finalize()

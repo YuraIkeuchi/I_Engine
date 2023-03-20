@@ -16,8 +16,11 @@ void ClearScene::Update(DirectXCommon* dxCommon) {
 }
 //描画
 void ClearScene::Draw(DirectXCommon* dxCommon) {
-	//ポストエフェクトをかけるか
 	actor->Draw(dxCommon);
+}
+//影用描画
+void ClearScene::ShadowDraw(DirectXCommon* dxCommon) {
+	actor->ShadowDraw(dxCommon);
 }
 //解放
 void ClearScene::Finalize() {
