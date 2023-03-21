@@ -63,13 +63,13 @@ public:
 	/// シーン描画前処理
 	/// </summary>
 	/// <param name="cmdList">コマンドリスト</param>
-	void DrawScenePrev();
+	void PreDraw();
 
 	/// <summary>
 	/// シーン描画後処理
 	/// </summary>
 	/// <param name="cmdList">コマンドリスト</param>
-	void DrawSceneRear();
+	void PostDraw();
 
 	/// <summary>
 	/// パイプライン生成

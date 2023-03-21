@@ -2,10 +2,11 @@
 #include "WinApp.h"
 using namespace DirectX;
 
-ShadowCamera::ShadowCamera() {
-	//カメラ初期化
-	UpdateViewMatrix();
-	UpdateProjectionMatrix();
+ShadowCamera::ShadowCamera(int window_width, int window_height) {
+	// 画面サイズに対する相対的なスケールに調整
+	scaleX = 1.0f / (float)window_width;
+	scaleY = 1.0f / (float)window_height;
+
 }
 
 void ShadowCamera::Update()
@@ -29,12 +30,19 @@ void ShadowCamera::Update()
 	}
 }
 
-void ShadowCamera::Initialize(const XMFLOAT3& eye, const XMFLOAT3& target)
+void ShadowCamera::Initialize(int window_width, int window_height,const XMFLOAT3& eye, const XMFLOAT3& target)
 {
 	//視点、注視点をセット
 	this->eye = eye;
 	this->target = target;
 	up = { 1, 0, 0 };
+	//カメラ初期化
+	UpdateViewMatrix();
+	UpdateProjectionMatrix();
+	aspectRatio = (float)window_width / window_height;
+
+	// ビュープロジェクションの合成
+	matViewProjection = matView * matProjection;
 }
 
 

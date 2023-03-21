@@ -228,7 +228,7 @@ void ShadowMap::Draw()
 	cmdList->DrawInstanced(4, 1, 0, 0);
 }
 
-void ShadowMap::DrawScenePrev()
+void ShadowMap::PreDraw()
 {
 	//リソースバリアを変更(シェーダリソース→描画可能)
 	cmdList->ResourceBarrier(1,
@@ -259,7 +259,7 @@ void ShadowMap::DrawScenePrev()
 		nullptr);
 }
 
-void ShadowMap::DrawSceneRear()
+void ShadowMap::PostDraw()
 {
 	//リソースバリアを変更(描画可能→シェーダリソース)
 	cmdList->ResourceBarrier(1, &CD3DX12_RESOURCE_BARRIER::Transition(texBuff.Get(),

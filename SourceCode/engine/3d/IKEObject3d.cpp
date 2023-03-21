@@ -29,7 +29,7 @@ Camera* IKEObject3d::camera = nullptr;
 ShadowCamera* IKEObject3d::shadowcamera = nullptr;
 LightGroup* IKEObject3d::lightGroup = nullptr;
 
-bool IKEObject3d::StaticInitialize(ID3D12Device* device, ID3D12GraphicsCommandList* cmdList, int window_width, int window_height, Camera* camera)
+bool IKEObject3d::StaticInitialize(ID3D12Device* device, ID3D12GraphicsCommandList* cmdList, int window_width, int window_height, Camera* camera, ShadowCamera* shadowcamera)
 {
 	// nullptrチェック
 	assert(device);
@@ -37,30 +37,18 @@ bool IKEObject3d::StaticInitialize(ID3D12Device* device, ID3D12GraphicsCommandLi
 	IKEObject3d::device = device;
 	IKEObject3d::cmdList = cmdList;
 	IKEObject3d::camera = camera;
+	IKEObject3d::shadowcamera = shadowcamera;
 	// グラフィックパイプラインの生成
 	CreateGraphicsPipeline();
 
 	// モデルの静的初期化
 	IKEModel::StaticInitialize(device);
 
-	// カメラ初期化
-	//InitializeCamera(window_width, window_height);
-
 	return true;
 }
 
 void IKEObject3d::PreDraw()
 {
-	// PreDrawとPostDrawがペアで呼ばれていなければエラー
-	//assert(IKEObject3d::cmdList == nullptr);
-
-	// コマンドリストをセット
-	//IKEObject3d::cmdList = cmdList;
-
-	//// パイプラインステートの設定
-	//cmdList->SetPipelineState(pipelinestate.Get());
-	//// ルートシグネチャの設定
-	//cmdList->SetGraphicsRootSignature(rootsignature.Get());
 	// プリミティブ形状を設定
 	cmdList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 }
@@ -85,9 +73,6 @@ IKEObject3d* IKEObject3d::Create()
 		assert(0);
 		return nullptr;
 	}
-	//float scale_val = 5;
-	//object3d->scale = { scale_val , scale_val , scale_val };
-
 	return object3d;
 }
 
@@ -290,7 +275,7 @@ bool IKEObject3d::Initialize()
 void IKEObject3d::Update()
 {
 	assert(camera);
-
+	assert(shadowcamera);
 	HRESULT result;
 	//行列の更新
 	UpdateWorldMatrix();

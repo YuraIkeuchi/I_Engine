@@ -18,8 +18,6 @@ void PlaySceneActor::Initialize(DirectXCommon* dxCommon, DebugCamera* camera, Li
 	//ポストエフェクトのファイル指定
 	postEffect->CreateGraphicsPipeline(L"Resources/Shaders/PostEffectTestVS.hlsl", L"Resources/Shaders/NewToneMapPS.hlsl");
 
-	PlayPostEffect = true;
-
 	//タイトル
 	IKESprite* PlaySprite_;
 	PlaySprite_ = IKESprite::Create(ImageManager::PLAY, { 0.0f,0.0f });
@@ -87,7 +85,8 @@ void PlaySceneActor::Draw(DirectXCommon* dxCommon)
 		postEffect->Draw(dxCommon->GetCmdList());
 		postEffect->PostDrawScene(dxCommon->GetCmdList());
 		dxCommon->PreDraw();
-		BackDraw(dxCommon);
+		//BackDraw(dxCommon);
+		ShadowDraw(dxCommon);
 		FrontDraw(dxCommon);
 		dxCommon->PostDraw();
 	}

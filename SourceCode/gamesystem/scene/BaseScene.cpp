@@ -11,8 +11,8 @@ void BaseScene::BaseInitialize(DirectXCommon* dxCommon) {
 	IKEFBXObject3d::CreateGraphicsPipeline();
 	// カメラ生成
 	camera = new DebugCamera(WinApp::window_width, WinApp::window_height);
-	shadowcamera = new ShadowCamera();
-	shadowcamera->Initialize({ 0.0f,500.0f,0.0f });
+	shadowcamera = new ShadowCamera(WinApp::window_width, WinApp::window_height);
+	shadowcamera->Initialize(WinApp::window_width, WinApp::window_height,{ 0.0f,500.0f,0.0f });
 	IKETexture::SetCamera(camera);
 	// 3Dオブジェクトにカメラをセット
 	IKEObject3d::SetCamera(camera);

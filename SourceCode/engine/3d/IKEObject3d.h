@@ -61,7 +61,7 @@ private: // 定数
 public: //静的メンバ関数
 
 	//静的初期化
-	static bool StaticInitialize(ID3D12Device* device, ID3D12GraphicsCommandList* cmdList, int window_width, int window_height, Camera* camera = nullptr);
+	static bool StaticInitialize(ID3D12Device* device, ID3D12GraphicsCommandList* cmdList, int window_width, int window_height, Camera* camera = nullptr,ShadowCamera* shadowcamera = nullptr);
 
 
 	//グラフィックパイプラインの生成

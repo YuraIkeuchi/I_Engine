@@ -17,11 +17,11 @@ private: // エイリアス
 	using XMFLOAT4 = DirectX::XMFLOAT4;
 	using XMMATRIX = DirectX::XMMATRIX;
 public: //メンバ関数
-	ShadowCamera();
+	ShadowCamera(int window_width, int window_height);
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	void Initialize(const XMFLOAT3& eye, const XMFLOAT3& target = { 0, 0, 0 });
+	void Initialize(int window_width, int window_height,const XMFLOAT3& eye, const XMFLOAT3& target = { 0, 0, 0 });
 	/// <summary>
 	/// 更新
 	/// </summary>
@@ -139,4 +139,7 @@ protected: // メンバ変数
 	XMFLOAT3 up = { 0, 1, 0 };
 	// アスペクト比
 	float aspectRatio = 1.0f;
+	// スケーリング
+	float scaleX = 1.0f;
+	float scaleY = 1.0f;
 };
