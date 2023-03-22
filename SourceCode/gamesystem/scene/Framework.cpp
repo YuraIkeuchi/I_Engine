@@ -53,8 +53,11 @@ void Framework::Initialize(DirectXCommon* dxCommon)
 	// デバッグテキスト初期化
 	debugText = DebugText::GetInstance();
 	debugText->Initialize(debugTextTexNumber);
+	//シャドウマップの共通初期化
+	ShadowMap::ShadowMapCommon(dxcommon->GetDev(), dxcommon->GetCmdList());
+	shadowmap = ShadowMap::Create();
 
-	IKEObject3d::StaticInitialize(dxcommon->GetDev(), dxcommon->GetCmdList(), WinApp::window_width, WinApp::window_height);
+	IKEObject3d::StaticInitialize(dxcommon->GetDev(), dxcommon->GetCmdList(),shadowmap->GetDepthBuff(), WinApp::window_width, WinApp::window_height);
 	IKETexture::StaticInitialize(dxcommon->GetDev(), dxcommon->GetCmdList(), WinApp::window_width, WinApp::window_height);
 	
 	// FBX関連静的初期化
@@ -62,9 +65,7 @@ void Framework::Initialize(DirectXCommon* dxCommon)
 	//リソースマネージャーの読み込み
 	ModelManager::GetInstance()->StartInitialize();
 	ImageManager::GetInstance()->StartLoad2D();
-	//シャドウマップの共通初期化
-	ShadowMap::ShadowMapCommon(dxcommon->GetDev(),dxcommon->GetCmdList());
-	shadowmap = ShadowMap::Create();
+	
 	// パーティクルマネージャ初期化
 	ParticleManager::CreateCommon(dxcommon->GetDev(), dxcommon->GetCmdList());
 	//パーティクルエミッター初期化

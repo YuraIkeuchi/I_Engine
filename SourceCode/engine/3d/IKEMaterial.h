@@ -41,6 +41,10 @@ public: // 静的メンバ関数
 private: // 静的メンバ変数
 	// デバイス
 	static ID3D12Device* device;
+	//シャドウマップ参照用
+	static ID3D12Resource* shadowMap;
+public:
+	static void SetShadowMap(ID3D12Resource* shadowMap) { IKEMaterial::shadowMap = shadowMap; }
 
 public:
 	std::string name;	// マテリアル名

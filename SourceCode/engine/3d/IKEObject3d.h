@@ -53,6 +53,8 @@ public: // サブクラス
 		float Tiling;//タイリング
 		bool LightEfffect;//ライトの影響
 		float lightPower;//ライトの強さ
+		XMMATRIX shadowViewproj;//ライトビューのプロジェクション行列
+		XMFLOAT3 shadowCameraPos;//ライトのカメラ
 	};
 
 private: // 定数
@@ -61,7 +63,7 @@ private: // 定数
 public: //静的メンバ関数
 
 	//静的初期化
-	static bool StaticInitialize(ID3D12Device* device, ID3D12GraphicsCommandList* cmdList, int window_width, int window_height, Camera* camera = nullptr,ShadowCamera* shadowcamera = nullptr);
+	static bool StaticInitialize(ID3D12Device* device, ID3D12GraphicsCommandList* cmdList,ID3D12Resource* shadowmap, int window_width, int window_height, Camera* camera = nullptr,ShadowCamera* shadowcamera = nullptr);
 
 
 	//グラフィックパイプラインの生成

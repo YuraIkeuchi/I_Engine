@@ -29,7 +29,7 @@ Camera* IKEObject3d::camera = nullptr;
 ShadowCamera* IKEObject3d::shadowcamera = nullptr;
 LightGroup* IKEObject3d::lightGroup = nullptr;
 
-bool IKEObject3d::StaticInitialize(ID3D12Device* device, ID3D12GraphicsCommandList* cmdList, int window_width, int window_height, Camera* camera, ShadowCamera* shadowcamera)
+bool IKEObject3d::StaticInitialize(ID3D12Device* device, ID3D12GraphicsCommandList* cmdList, ID3D12Resource* shadowmap, int window_width, int window_height, Camera* camera, ShadowCamera* shadowcamera)
 {
 	// nullptrチェック
 	assert(device);

@@ -22,8 +22,10 @@ private:
 private: // 静的メンバ変数
 	// デバイス
 	static ID3D12Device* device;
+
 	// デスクリプタサイズ
 	static UINT descriptorHandleIncrementSize;
+
 
 public: // 静的メンバ関数
 	// 静的初期化

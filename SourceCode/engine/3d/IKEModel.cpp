@@ -374,7 +374,7 @@ void IKEModel::CreateDescriptorHeap()
 	HRESULT result = S_FALSE;
 
 	// マテリアルの数
-	size_t count = materials.size();
+	size_t count = materials.size() + 1;
 
 	// デスクリプタヒープを生成	
 	if (count > 0) {

@@ -7,7 +7,7 @@ using namespace std;
 
 /// Ã“Iƒƒ“ƒo•Ï”‚ÌÀ‘Ì
 ID3D12Device* IKEMaterial::device = nullptr;
-
+ID3D12Resource* IKEMaterial::shadowMap = nullptr;
 void IKEMaterial::StaticInitialize(ID3D12Device* device)
 {
 	IKEMaterial::device = device;

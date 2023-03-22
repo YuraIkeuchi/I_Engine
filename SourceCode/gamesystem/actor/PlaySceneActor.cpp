@@ -85,7 +85,7 @@ void PlaySceneActor::Draw(DirectXCommon* dxCommon)
 		postEffect->Draw(dxCommon->GetCmdList());
 		postEffect->PostDrawScene(dxCommon->GetCmdList());
 		dxCommon->PreDraw();
-		//BackDraw(dxCommon);
+		BackDraw(dxCommon);
 		ShadowDraw(dxCommon);
 		FrontDraw(dxCommon);
 		dxCommon->PostDraw();
