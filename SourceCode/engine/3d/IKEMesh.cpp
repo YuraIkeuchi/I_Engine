@@ -7,12 +7,13 @@ using namespace DirectX;
 /// 静的メンバ変数の実体
 ID3D12Device* IKEMesh::device = nullptr;
 
-void IKEMesh::StaticInitialize(ID3D12Device* device)
+void IKEMesh::StaticInitialize(ID3D12Device* device, ID3D12Resource* shadowmap)
 {
 	IKEMesh::device = device;
 
 	// マテリアルの静的初期化
 	IKEMaterial::StaticInitialize(device);
+	IKEMaterial::SetShadowMap(shadowmap);
 }
 
 void IKEMesh::SetName(const std::string& name)

@@ -29,7 +29,7 @@ private: // 静的メンバ変数
 
 public: // 静的メンバ関数
 	// 静的初期化
-	static void StaticInitialize(ID3D12Device* device);
+	static void StaticInitialize(ID3D12Device* device,ID3D12Resource* shadowmap);
 	// OBJファイルからメッシュ生成
 	static IKEModel* LoadFromOBJ(const std::string& modelname, bool smoothing = false);
 

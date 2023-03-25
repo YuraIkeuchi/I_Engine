@@ -10,12 +10,12 @@ const std::string IKEModel::baseDirectory = "Resources/3d/";
 ID3D12Device* IKEModel::device = nullptr;
 UINT IKEModel::descriptorHandleIncrementSize = 0;
 
-void IKEModel::StaticInitialize(ID3D12Device* device)
+void IKEModel::StaticInitialize(ID3D12Device* device, ID3D12Resource* shadowmap)
 {
 	IKEModel::device = device;
 
 	// ÉÅÉbÉVÉÖÇÃê√ìIèâä˙âª
-	IKEMesh::StaticInitialize(device);
+	IKEMesh::StaticInitialize(device,shadowmap);
 }
 
 IKEModel* IKEModel::LoadFromOBJ(const std::string& modelname, bool smoothing)

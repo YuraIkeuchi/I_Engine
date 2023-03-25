@@ -33,7 +33,7 @@ public: // サブクラス
 
 public: // 静的メンバ関数
 	// 静的初期化
-	static void StaticInitialize(ID3D12Device* device);
+	static void StaticInitialize(ID3D12Device* device, ID3D12Resource* shadowmap);
 
 private: // 静的メンバ変数
 	// デバイス

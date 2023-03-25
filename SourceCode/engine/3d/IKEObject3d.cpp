@@ -42,7 +42,7 @@ bool IKEObject3d::StaticInitialize(ID3D12Device* device, ID3D12GraphicsCommandLi
 	CreateGraphicsPipeline();
 
 	// ƒ‚ƒfƒ‹‚ÌÃ“I‰Šú‰»
-	IKEModel::StaticInitialize(device);
+	IKEModel::StaticInitialize(device,shadowmap);
 
 	return true;
 }
