@@ -258,14 +258,17 @@
     <ClCompile Include="SourceCode\engine\enginebase\OpenBrowser.cpp">
       <Filter>SourceCords\engine\enginebase</Filter>
     </ClCompile>
-    <ClCompile Include="SourceCode\gamesystem\Common\Helper.cpp">
-      <Filter>SourceCords\gamesystem\Common</Filter>
-    </ClCompile>
     <ClCompile Include="SourceCode\engine\2d\ShadowMap.cpp">
       <Filter>SourceCords\engine\2d</Filter>
     </ClCompile>
     <ClCompile Include="SourceCode\engine\camera\ShadowCamera.cpp">
       <Filter>SourceCords\engine\camera</Filter>
+    </ClCompile>
+    <ClCompile Include="SourceCode\engine\helper\Helper.cpp">
+      <Filter>SourceCords\engine\helper</Filter>
+    </ClCompile>
+    <ClCompile Include="SourceCode\engine\helper\Spline.cpp">
+      <Filter>SourceCords\engine\helper</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -449,9 +452,6 @@
     <ClInclude Include="SourceCode\gamesystem\gamecamera\CameraWork.h">
       <Filter>SourceCords\gamesystem\gamecamera</Filter>
     </ClInclude>
-    <ClInclude Include="SourceCode\gamesystem\Common\VariableCommon.h">
-      <Filter>SourceCords\gamesystem\Common</Filter>
-    </ClInclude>
     <ClInclude Include="SourceCode\engine\shake\Shake.h">
       <Filter>SourceCords\engine\shake</Filter>
     </ClInclude>
@@ -485,14 +485,20 @@
     <ClInclude Include="SourceCode\engine\enginebase\OpenBrowser.h">
       <Filter>SourceCords\engine\enginebase</Filter>
     </ClInclude>
-    <ClInclude Include="SourceCode\gamesystem\Common\Helper.h">
-      <Filter>SourceCords\gamesystem\Common</Filter>
-    </ClInclude>
     <ClInclude Include="SourceCode\engine\2d\ShadowMap.h">
       <Filter>SourceCords\engine\2d</Filter>
     </ClInclude>
     <ClInclude Include="SourceCode\engine\camera\ShadowCamera.h">
       <Filter>SourceCords\engine\camera</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceCode\engine\helper\Helper.h">
+      <Filter>SourceCords\engine\helper</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceCode\engine\helper\Spline.h">
+      <Filter>SourceCords\engine\helper</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceCode\engine\helper\VariableCommon.h">
+      <Filter>SourceCords\engine\helper</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -650,6 +656,9 @@
     </Filter>
     <Filter Include="SourceCords\shader\2d\shadowmap">
       <UniqueIdentifier>{59d09cee-7718-4927-b90b-c23e9f233a60}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SourceCords\engine\helper">
+      <UniqueIdentifier>{e4560388-f8e0-4327-a0d3-a39c92801f49}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

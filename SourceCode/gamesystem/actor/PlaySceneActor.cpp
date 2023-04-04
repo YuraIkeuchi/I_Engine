@@ -1,4 +1,4 @@
-#include "PlaySceneActor.h"
+ï»¿#include "PlaySceneActor.h"
 #include "Audio.h"
 #include "SceneManager.h"
 #include "ImageManager.h"
@@ -6,21 +6,22 @@
 #include "VariableCommon.h"
 #include "ParticleEmitter.h"
 #include "ModelManager.h"
+#include <algorithm>
 
-//‰Šú‰»
+//åˆæœŸåŒ–
 void PlaySceneActor::Initialize(DirectXCommon* dxCommon, DebugCamera* camera, LightGroup* lightgroup)
 {
 	dxCommon->SetFullScreen(true);
-	//‹¤’Ê‚Ì‰Šú‰»
+	//å…±é€šã®åˆæœŸåŒ–
 	BaseInitialize(dxCommon);
-	//ƒI[ƒfƒBƒI
+	//ã‚ªãƒ¼ãƒ‡ã‚£ã‚ª
 	Audio::GetInstance()->LoadSound(1, "Resources/Sound/BGM/Boss.wav");
-	//ƒ|ƒXƒgƒGƒtƒFƒNƒg‚Ìƒtƒ@ƒCƒ‹Žw’è
+	//ãƒã‚¹ãƒˆã‚¨ãƒ•ã‚§ã‚¯ãƒˆã®ãƒ•ã‚¡ã‚¤ãƒ«æŒ‡å®š
 	postEffect->CreateGraphicsPipeline(L"Resources/Shaders/PostEffectTestVS.hlsl", L"Resources/Shaders/NewToneMapPS.hlsl");
 
 	PlayPostEffect = true;
 
-	//ƒ^ƒCƒgƒ‹
+	//ã‚¿ã‚¤ãƒˆãƒ«
 	IKESprite* PlaySprite_;
 	PlaySprite_ = IKESprite::Create(ImageManager::PLAY, { 0.0f,0.0f });
 	PlaySprite.reset(PlaySprite_);
@@ -38,38 +39,62 @@ void PlaySceneActor::Initialize(DirectXCommon* dxCommon, DebugCamera* camera, Li
 	objGround->SetModel(modelGround);
 	objGround->SetPosition({ 0.0f,0.0f,0.0f });
 }
-//XV
+//æ›´æ–°
 void PlaySceneActor::Update(DirectXCommon* dxCommon, DebugCamera* camera, LightGroup* lightgroup)
 {
 	Input* input = Input::GetInstance();
 	if (input->TriggerButton(input->Button_A)) {
-		SceneManager::GetInstance()->ChangeScene("GAMECLEAR");
-		Audio::GetInstance()->StopWave(1);
+		m_StartCount = GetTickCount();
+		m_Startindex = 1;
+		//SceneManager::GetInstance()->ChangeScene("GAMECLEAR");
+		//Audio::GetInstance()->StopWave(1);
 	}
-	//‰¹Šy‚Ì‰¹—Ê‚ª•Ï‚í‚é
+	//éŸ³æ¥½ã®éŸ³é‡ãŒå¤‰ã‚ã‚‹
 	Audio::GetInstance()->VolumChange(0, VolumManager::GetInstance()->GetBGMVolum());
 	camerawork->Update(camera);
 
 
+	m_NowCount = GetTickCount();
+	m_ElapsedCount = m_NowCount - m_StartCount;
+	float l_ElapsedTime = static_cast<float>(m_ElapsedCount) / 1000.0f;
+
+	m_Timerate = l_ElapsedTime / m_Maxtime;
+	if (m_Timerate >= 1) {
+		if (m_Startindex < m_Points.size() - 3)
+		{
+			m_Startindex++;
+			m_Timerate -= 1;
+
+			m_StartCount = GetTickCount();
+		}
+		else
+		{
+			m_Timerate = 1;
+		}
+
+	}
+	lightgroup->Update();
+
+	objCube->SetPosition(SplinePosition(m_Points, m_Startindex, m_Timerate));
 	objCube->Update();
 	objGround->Update();
-	lightgroup->Update();
+
 }
-//•’Ê‚ÌXV
+//æ™®é€šã®æ›´æ–°
 void PlaySceneActor::NormalUpdate() {
 	VolumManager::GetInstance()->Update();
 }
-//ƒ{ƒX“oê‚ÌXV
+//ãƒœã‚¹ç™»å ´ã®æ›´æ–°
 void PlaySceneActor::BossAppUpdate() {
 }
-//ƒ{ƒXI—¹‚ÌXV
+//ãƒœã‚¹çµ‚äº†ã®æ›´æ–°
 void PlaySceneActor::BossEndUpdate() {
 }
-//•`‰æ
+//æç”»
 void PlaySceneActor::Draw(DirectXCommon* dxCommon)
 {
-	//•`‰æ•û–@
-	//ƒ|ƒXƒgƒGƒtƒFƒNƒg‚ð‚©‚¯‚é‚©
+	//æç”»æ–¹æ³•
+	//ãƒã‚¹ãƒˆã‚¨ãƒ•ã‚§ã‚¯ãƒˆã‚’ã‹ã‘ã‚‹ã‹
 	if (PlayPostEffect) {
 		postEffect->PreDrawScene(dxCommon->GetCmdList());
 		BackDraw(dxCommon);
@@ -92,41 +117,83 @@ void PlaySceneActor::Draw(DirectXCommon* dxCommon)
 		dxCommon->PostDraw();
 	}
 }
-//‰ð•ú
+//è§£æ”¾
 void PlaySceneActor::Finalize()
 {
 }
-//ƒ‚ƒfƒ‹‚Ì•`‰æ
+//ãƒ¢ãƒ‡ãƒ«ã®æç”»
 void PlaySceneActor::ModelDraw(DirectXCommon* dxCommon) {
 	IKEObject3d::PreDraw();
 	objCube->Draw();
 	objGround->Draw();
 	IKEObject3d::PostDraw();
 }
-//Œã‚ë‚Ì•`‰æ
+//å¾Œã‚ã®æç”»
 void PlaySceneActor::BackDraw(DirectXCommon* dxCommon)
 {
 #pragma endregion
 	ModelDraw(dxCommon);
 }
-//ƒ|ƒXƒgƒGƒtƒFƒNƒg‚ª‚©‚©‚ç‚È‚¢
+//ãƒã‚¹ãƒˆã‚¨ãƒ•ã‚§ã‚¯ãƒˆãŒã‹ã‹ã‚‰ãªã„
 void PlaySceneActor::FrontDraw(DirectXCommon* dxCommon) {
-	//Š®‘S‚É‘O‚É‘‚­ƒXƒvƒ‰ƒCƒg
+	//å®Œå…¨ã«å‰ã«æ›¸ãã‚¹ãƒ—ãƒ©ã‚¤ãƒˆ
 	IKESprite::PreDraw();
 	//PlaySprite->Draw();
 	IKESprite::PostDraw();
 }
-//IMGui‚Ì•`‰æ
+//IMGuiã®æç”»
 void PlaySceneActor::ImGuiDraw(DirectXCommon* dxCommon) {
+	ImGui::Begin("Pos");
+	ImGui::Text("POSX:%f", objCube->GetPosition().x);
+	ImGui::Text("POSY:%f", objCube->GetPosition().y);
+	ImGui::Text("POSZ:%f", objCube->GetPosition().z);
+	ImGui::End();
 	camerawork->ImGuiDraw();
 }
-//•’Ê‚Ì•`‰æ
+//æ™®é€šã®æç”»
 void PlaySceneActor::NormalDraw(DirectXCommon* dxCommon) {
 }
-//ƒ{ƒX“oêƒV[ƒ“‚Ì•`‰æ
+//ãƒœã‚¹ç™»å ´ã‚·ãƒ¼ãƒ³ã®æç”»
 void PlaySceneActor::BossAppDraw(DirectXCommon* dxCommon) {
 }
-//ƒ{ƒXI—¹ƒV[ƒ“‚Ì•`‰æ
+//ãƒœã‚¹çµ‚äº†ã‚·ãƒ¼ãƒ³ã®æç”»
 void PlaySceneActor::BossEndDraw(DirectXCommon* dxCommon) {
 	ParticleEmitter::GetInstance()->FlontDrawAll();
+}
+//ã‚¹ãƒ—ãƒ©ã‚¤ãƒ³è£œå®Œ
+XMFLOAT3 PlaySceneActor::SplinePosition(const std::vector<XMFLOAT3>& points, size_t startindex, float t)
+{
+	size_t n = points.size() - 2;
+	if (startindex > n)return points[n];
+	if (startindex < 1)return points[1];
+
+	XMFLOAT3 p0 = points[startindex - 1];
+	XMFLOAT3 p1 = points[startindex];
+	XMFLOAT3 p2 = points[startindex + 1];
+	XMFLOAT3 p3 = points[startindex + 2];
+
+	XMFLOAT3 a, b, c, d, e, f, g, h, i = {};
+	XMFLOAT3 a1, b1, c1, d1, b4 = {};
+	float ext, ext2;
+	ext = (t * t);
+	ext2 = (t * t * t);
+	a = XMFLOAT3(p1.x * 2, p1.y * 2, p1.z * 2);
+	b = XMFLOAT3((-p0.x + p2.x) * t, (-p0.y + p2.y) * t, (-p0.z + p2.z) * t);
+	c = XMFLOAT3(2 * p0.x, 2 * p0.y, 2 * p0.z);
+	d = XMFLOAT3(5 * p1.x, 5 * p1.y, 5 * p1.z);
+	e = XMFLOAT3(4 * p2.x, 4 * p2.y, 4 * p2.z);
+	f = XMFLOAT3(-p0.x, -p0.y, -p0.z);
+	g = XMFLOAT3(3 * p1.x, 3 * p1.y, 3 * p1.z);
+	h = XMFLOAT3(3 * p2.x, 3 * p2.y, 3 * p2.z);
+
+	a1 = { a.x + b.x,a.y + b.y,a.z + b.z };
+	b1 = { c.x - d.x,c.y - d.y ,c.z - d.z };
+	c1 = { (b1.x + e.x - p3.x) * ext ,(b1.y + e.y - p3.y) * ext  ,(b1.z + e.z - p3.z) * ext };
+
+	d1 = { (f.x + g.x - h.x + p3.x) * ext2,(f.y + g.y - h.y + p3.y) * ext2,(f.z + g.z - h.z + p3.z) * ext2 };
+	b4 = { (a1.x + c1.x),(a1.y + c1.y)  ,(a1.z + c1.z) };
+	XMFLOAT3 ys;
+	ys = { b4.x + d1.x,b4.y + d1.y ,b4.z + d1.z };
+	XMFLOAT3 position = { 0.5f * ys.x,0.5f * ys.y ,0.5f * ys.z };
+	return position;
 }
