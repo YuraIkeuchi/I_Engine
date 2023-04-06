@@ -28,14 +28,13 @@ public:
 	enum particleName {
 		Normal,
 		Smoke
-
 	};
 public:
 	static ImageManager* GetInstance();		//Žæ“¾—p
-	static bool load;
 	void StartLoad2D();
-	void LoadTex2D();
 	void SecondLoad2D();
+	void StartLoadTex2D();
+	void SecondLoadTex2D();
 	void LoadParticle();
 };
 

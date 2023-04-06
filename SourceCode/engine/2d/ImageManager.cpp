@@ -1,7 +1,5 @@
 ﻿#include "ImageManager.h"
 
-bool ImageManager::load = false;
-
 
 ImageManager* ImageManager::GetInstance() {
 	static ImageManager instans;
@@ -15,12 +13,18 @@ void ImageManager::StartLoad2D() {
 	IKESprite::LoadTexture(GAMECLEAR, L"Resources/2d/sceneback/clear.png");
 }
 
+//非同期処理で読み込むスプライト
 void ImageManager::SecondLoad2D() {
 
 }
 
 //テクスチャの読み込み
-void ImageManager::LoadTex2D() {
+void ImageManager::StartLoadTex2D() {
+
+}
+
+//非同期処理でのテクスチャの読み込み
+void ImageManager::SecondLoadTex2D() {
 
 }
 
@@ -28,6 +32,5 @@ void ImageManager::LoadParticle() {
 
 	ParticleManager::LoadTexture(Normal, "effect1");
 	ParticleManager::LoadTexture(Smoke, "hootEffect");
-	load = true;
 }
 
