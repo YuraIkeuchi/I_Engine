@@ -40,29 +40,41 @@ void Helper::FloatClamp(float& Num,const float Min,const float Max) {
 }
 
 //XMFLOAT3‚Æfloat‚ğ‰ÁZ‚·‚éŠÖ”
-void Helper::Float3AddFloat(XMFLOAT3& Num, float Add) {
-	Num.x += Add;
-	Num.y += Add;
-	Num.z += Add;
+DirectX::XMFLOAT3 Helper::Float3AddFloat(const XMFLOAT3& Num, float Add) {
+	XMFLOAT3 l_Result;
+	 l_Result.x = Num.x + Add;
+	 l_Result.y = Num.y + Add;
+	 l_Result.z = Num.z + Add;
+	
+	 return l_Result;
 }
 
 //XMFLOAT3‚ÆXMFLOAT3‚ğ‰ÁZ‚·‚éŠÖ”
-void Helper::Float3AddFloat3(XMFLOAT3& Num, XMFLOAT3 Add) {
-	Num.x += Add.x;
-	Num.y += Add.y;
-	Num.z += Add.z;
+DirectX::XMFLOAT3 Helper::Float3AddFloat3(const XMFLOAT3& Num, const XMFLOAT3& Add) {
+	XMFLOAT3 l_Result;
+	l_Result.x = Num.x + Add.x;
+	l_Result.y = Num.y + Add.y;
+	l_Result.z = Num.z + Add.z;
+
+	return l_Result;
 }
 
 //XMFLOAT3‚Æfloat‚ğŒ¸Z‚·‚éŠÖ”
-void Helper::Float3SubFloat(XMFLOAT3& Num, float Sub) {
-	Num.x -= Sub;
-	Num.y -= Sub;
-	Num.z -= Sub;
+DirectX::XMFLOAT3 Helper::Float3SubFloat(const XMFLOAT3& Num, float Sub) {
+	XMFLOAT3 l_Result;
+	l_Result.x = Num.x - Sub;
+	l_Result.y = Num.y - Sub;
+	l_Result.z = Num.z - Sub;
+
+	return l_Result;
 }
 
 //XMFLOAT3‚ÆXMFLOAT3‚ğŒ¸Z‚·‚éŠÖ”
-void Helper::Float3SubFloat3(XMFLOAT3& Num, XMFLOAT3 Sub) {
-	Num.x -= Sub.x;
-	Num.y -= Sub.y;
-	Num.z -= Sub.z;
+DirectX::XMFLOAT3 Helper::Float3SubFloat3(const XMFLOAT3& Num, const XMFLOAT3& Sub) {
+	XMFLOAT3 l_Result;
+	l_Result.x = Num.x - Sub.x;
+	l_Result.y = Num.y - Sub.y;
+	l_Result.z = Num.z - Sub.z;
+
+	return l_Result;
 }
